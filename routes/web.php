@@ -17,19 +17,5 @@ use PhpAmqpLib\Message\AMQPMessage;
 */
 
 Route::get('/', function () {
-    $methods = config('rabbit_events', []);
-    $method = data_get($methods, 'credit.created');
-    $function_name = $method['method'];
-    $dtoClass = new $method['dto'](
-        [
-            'aggregate_id' =>   'aggregate_id',
-            'event_id' =>   'event_id',
-            'payload' =>   'payload',
-            'occurred_on' =>   'occurred_on',
-            'event_name' =>   'event_name',
-        ]
-    );
-
-    $class = app($method['class']);
-    dd($class->$function_name($dtoClass));
+    return "ok";
 });
