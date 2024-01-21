@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+
+    ddd_mariadb:
+        image: mariadb:10.6.5
+        container_name: mariadb-ddd-backend
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: 123
+        volumes:
+            - ./public/storage/docker/my-mysql-db:/var/lib/mysql
+        networks:
+            -  ddd-backend
+
+
+    ddd_adminer:
+        container_name:  ddd-backend-adminer
+        image: adminer
+        ports:
+            - 9085:8080
+        networks:
+            -  ddd-backend
+
+    rabbitmq:
+        image: rabbitmq:3.9.12-management-alpine
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+        volumes:
+            - ./rabbitmq-data:/var/lib/rabbitmq
+
+volumes:
+    rabbitmq-data:
+
+networks:
+    ddd-backend:
+        driver: bridge
