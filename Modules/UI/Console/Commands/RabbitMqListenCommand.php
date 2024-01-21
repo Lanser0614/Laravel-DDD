@@ -30,7 +30,6 @@ class RabbitMqListenCommand extends Command
      */
    public function handle()
     {
-        dd("ok");
         /** @var Client $client */
         $client = app(Client::class);
         $client->consume(RabbitQueue::CREDIT_QUEUE, function (AMQPMessage $message) {

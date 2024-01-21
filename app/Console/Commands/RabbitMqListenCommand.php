@@ -4,10 +4,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Rabbit\RabbitQueue;
-use App\Rabbitmq\Rabbit\Client;
 use Illuminate\Console\Command;
-use JetBrains\PhpStorm\NoReturn;
-use PhpAmqpLib\Message\AMQPMessage;
+use Modules\BaseModule\EventBus\Contract\EventBus;
 
 class RabbitMqListenCommand extends Command
 {
@@ -28,20 +26,8 @@ class RabbitMqListenCommand extends Command
     /**
      * Execute the console command.
      */
-   public function handle()
-    {
-        /** @var Client $client */
-        $client = app(Client::class);
-        $client->consume(RabbitQueue::CREDIT_QUEUE, function (AMQPMessage $message) {
-            /**
-             * Acknowledge a message
-             */
-            $message->ack(true);
-
-            /**
-             * @var Client $this
-             */
-            $this->dispatchEvents($message);
-        })->enableMultiQueue()->wait(); // or waitForever();
+   public function handle(EventBus $eventBus): void
+   {
+        $eventBus->consume(RabbitQueue::CREDIT_QUEUE, 'credit-service');
     }
 }
