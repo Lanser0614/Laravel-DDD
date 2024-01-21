@@ -10,3 +10,10 @@
 ## Laravel Event Driven Design Architecture example
 This is simple example for EDD Architecture with RabbitMq message 
 broker 
+
+If you have docker run
+docker-compose up -d 
+
+in the docker have MySql and RabbitMq
+
+All code is located in Modules folder
